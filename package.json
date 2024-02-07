@@ -1,0 +1,10 @@
+{
+  "name": "classic-react",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "jihoo <ahrefhoo@naver.com>",
+  "license": "MIT",
+  "dependencies": {
+    "create-react-app": "^5.0.1"
+  }
+}
