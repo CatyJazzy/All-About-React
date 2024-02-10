@@ -14,8 +14,8 @@ export default function Board() {
 
   /* 칸에 값 채우는 함수 */
   function handleClick(i) {
-    /* 이미 채워진 칸의 채택 방지 */
-    if (squares[i]) {
+    /* 이미 채워진 칸인지 확인 && 승리 확인 */
+    if (squares[i] || calculateWinner(squares)) {
       return;
     }
 
@@ -30,8 +30,19 @@ export default function Board() {
     setXIsNext(!xIsNext);
   }
 
+  /* 승자 및 순서 표시 */
+  const winner = calculateWinner(squares);
+  let status; // 순서 및 결과
+
+  if (winner) {
+    status = "Winner: " + winner;
+  } else {
+    status = "Next Player: " + (xIsNext ? "X" : "O");
+  }
+
   return (
     <>
+      <div className="status">{status}</div>
       <div className="board-row">
         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
         <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
