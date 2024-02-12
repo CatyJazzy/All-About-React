@@ -1,3 +1,4 @@
+import next from "next";
 import { useState } from "react";
 
 function Square({ value, onSquareClick }) {
@@ -68,7 +69,10 @@ export default function Game() {
   const currentSquares = history[history.length - 1]; //현재 보드 상태
 
   function handlePlay(nextSquares) {
-    setHistory([...history, nextSquares]);
+    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares]; // 필요한 만큼의 히스토리만 저장
+
+    setHistory(nextHistory);
+    setCurrentMove(nextHistory.length - 1);
     setXIsNext(!xIsNext);
   }
 
