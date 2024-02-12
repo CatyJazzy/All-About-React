@@ -65,7 +65,7 @@ export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0); //사용자가 보고 있는 보드 순번
 
-  const currentSquares = history[history.length - 1]; //현재 보드 상태
+  const currentSquares = history[currentMove]; //현재 보드 상태
 
   function handlePlay(nextSquares) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
