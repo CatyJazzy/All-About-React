@@ -67,6 +67,7 @@ export default function Game() {
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove]; //현재 보드 상태
 
+  /* 핸들링 함수 */
   function handlePlay(nextSquares) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
 
@@ -78,6 +79,7 @@ export default function Game() {
     setCurrentMove(nextMove);
   }
 
+  /* 히스토리 목록 엘리먼트 */
   const moves = history.map((squares, move) => {
     let description;
     if (move > 0) {
@@ -88,7 +90,11 @@ export default function Game() {
 
     return (
       <li key={move}>
-        <button onClick={() => jumpTo(move)}>{description}</button>
+        {move === currentMove ? (
+          `You are at move #${move}`
+        ) : (
+          <button onClick={() => jumpTo(move)}>{description}</button>
+        )}
       </li>
     );
   });
