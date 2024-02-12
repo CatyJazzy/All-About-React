@@ -63,7 +63,9 @@ function Board({ xIsNext, squares, onPlay }) {
 export default function Game() {
   const [xIsNext, setXIsNext] = useState(true);
   const [history, setHistory] = useState([Array(9).fill(null)]);
-  const currentSquares = history[history.length - 1];
+  const [currentMove, setCurrentMove] = useState(0); //사용자가 보고 있는 보드 순번
+
+  const currentSquares = history[history.length - 1]; //현재 보드 상태
 
   function handlePlay(nextSquares) {
     setHistory([...history, nextSquares]);
@@ -71,7 +73,8 @@ export default function Game() {
   }
 
   function jumpTo(nextMove) {
-    //TODO
+    setCurrentMove(nextMove);
+    setXIsNext(nextMove % 2 === 0);
   }
 
   const moves = history.map((squares, move) => {
@@ -83,7 +86,7 @@ export default function Game() {
     }
 
     return (
-      <li>
+      <li key={move}>
         <button onClick={() => jumpTo(move)}>{description}</button>
       </li>
     );
