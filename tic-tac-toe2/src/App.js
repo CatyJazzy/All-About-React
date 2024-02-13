@@ -1,8 +1,6 @@
 import { useState } from "react";
 
 function Square({ value, onSquareClick, isWin }) {
-  //console.log(isWin, "--네모 인덱스: ", value);
-
   if (isWin) {
     return (
       <button
@@ -24,17 +22,9 @@ function Square({ value, onSquareClick, isWin }) {
 
 function Board({ xIsNext, squares, onPlay }) {
   /* 칸에 값 채우는 함수 */
-  const [winLine, setWinLine] = useState([null, null, null]);
-
   function handleClick(i) {
     /* 이미 채워진 칸인지 확인 && 승리 확인 */
-    if (squares[i]) {
-      return;
-    }
-
-    if (calculateWinner(squares)[0]) {
-      setWinLine(calculateWinner(squares).slice(1, 4));
-      console.log("---", winLine, "---");
+    if (squares[i] || calculateWinner(squares)) {
       return;
     }
 
@@ -51,25 +41,24 @@ function Board({ xIsNext, squares, onPlay }) {
   }
 
   /* 승자 및 순서 표시 */
-  const winner = calculateWinner(squares)[0];
+  const winner = calculateWinner(squares);
   let status; // 순서 및 결과
-  let win_status; // 이긴 줄;
 
   if (winner) {
-    status = "Winner: " + winner;
-    win_status = winLine;
+    status = "Winner: " + winner[0];
   } else {
     status = "Next Player: " + (xIsNext ? "X" : "O");
-    win_status = [null, null, null];
   }
 
   const squareGroup = (startIdx) => {
     let three_squares = [startIdx, startIdx + 1, startIdx + 2].map((index) => {
       let isWinSquare = false;
 
-      for (let i = 0; i < 3; i++) {
-        if (startIdx === win_status[i]) {
-          isWinSquare = true;
+      if (winner) {
+        for (let i = 1; i < 4; i++) {
+          if (index === winner[i]) {
+            isWinSquare = true;
+          }
         }
       }
 
@@ -175,5 +164,5 @@ function calculateWinner(squares) {
     }
   }
 
-  return [null];
+  return null;
 }
