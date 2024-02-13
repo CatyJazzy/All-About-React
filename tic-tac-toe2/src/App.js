@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 function Square({ value, onSquareClick, isWin }) {
-  console.log(isWin, "--네모 인덱스: ", value);
+  //console.log(isWin, "--네모 인덱스: ", value);
 
   if (isWin) {
     return (
@@ -24,9 +24,17 @@ function Square({ value, onSquareClick, isWin }) {
 
 function Board({ xIsNext, squares, onPlay }) {
   /* 칸에 값 채우는 함수 */
+  const [winLine, setWinLine] = useState([null, null, null]);
+
   function handleClick(i) {
     /* 이미 채워진 칸인지 확인 && 승리 확인 */
-    if (squares[i] || calculateWinner(squares)[0]) {
+    if (squares[i]) {
+      return;
+    }
+
+    if (calculateWinner(squares)[0]) {
+      setWinLine(calculateWinner(squares).slice(1, 4));
+      console.log("---", winLine, "---");
       return;
     }
 
@@ -49,7 +57,7 @@ function Board({ xIsNext, squares, onPlay }) {
 
   if (winner) {
     status = "Winner: " + winner;
-    win_status = calculateWinner(squares).slice(1, 4);
+    win_status = winLine;
   } else {
     status = "Next Player: " + (xIsNext ? "X" : "O");
     win_status = [null, null, null];
