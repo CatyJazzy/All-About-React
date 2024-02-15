@@ -18,7 +18,7 @@ export default function Board({ xIsNext, squares, onPlay }) {
     }
 
     // 순서 및 보드 상태를 제어
-    onPlay(nextSquares);
+    onPlay(nextSquares, i);
   }
 
   /* 승자 및 순서 표시 */

@@ -3,6 +3,7 @@ import Board from "./Board";
 
 export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
+  const [clickHis, setClickHis] = useState(Array(9).fill(null)); // 클릭한 칸 좌표 히스토리
   const [currentMove, setCurrentMove] = useState(0); //사용자가 보고 있는 보드 순번
   const [isAscend, setAscend] = useState(true); //히스토리 정렬기준
 
@@ -10,11 +11,16 @@ export default function Game() {
   const currentSquares = history[currentMove]; //현재 보드 상태
 
   /* 핸들링 함수 */
-  function handlePlay(nextSquares) {
+  function handlePlay(nextSquares, idx) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+    const nextClick = [
+      ...clickHis.slice(0, currentMove + 1),
+      calculateLocation(idx),
+    ];
 
     setHistory(nextHistory);
     setCurrentMove(nextHistory.length - 1);
+    setClickHis(nextClick);
   }
 
   function jumpTo(nextMove) {
@@ -29,10 +35,13 @@ export default function Game() {
 
   const moves = history.map((squares, move) => {
     let description;
+    let location;
     if (move > 0) {
       description = "Go to move #" + move;
+      location = `location: (${clickHis[move][0]}, ${clickHis[move][1]})`;
     } else {
       description = "Go to game start";
+      location = "";
     }
 
     return (
@@ -40,7 +49,10 @@ export default function Game() {
         {move === currentMove ? (
           `You are at move #${move}`
         ) : (
-          <button onClick={() => jumpTo(move)}>{description}</button>
+          <>
+            <button onClick={() => jumpTo(move)}>{description}</button>
+            <div>{location}</div>
+          </>
         )}
       </li>
     );
@@ -59,4 +71,11 @@ export default function Game() {
       </div>
     </div>
   );
+}
+
+function calculateLocation(index) {
+  const row = Math.floor(index / 3) + 1;
+  const col = (index % 3) + 1;
+
+  return [row, col];
 }
