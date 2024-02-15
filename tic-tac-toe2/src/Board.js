@@ -5,7 +5,7 @@ export default function Board({ xIsNext, squares, onPlay }) {
   /* 칸에 값 채우는 함수 */
   function handleClick(i) {
     /* 이미 채워진 칸인지 확인 && 승리 확인 */
-    if (squares[i] || calculateWinner(squares)) {
+    if (squares[i] || calculateWinner(squares)[0]) {
       return;
     }
 
@@ -25,10 +25,14 @@ export default function Board({ xIsNext, squares, onPlay }) {
   const winner = calculateWinner(squares);
   let status; // 순서 및 결과
 
-  if (winner) {
+  if (winner[0]) {
     status = "Winner: " + winner[0];
   } else {
-    status = "Next Player: " + (xIsNext ? "X" : "O");
+    if (!squares.includes(null)) {
+      status = "No one wins: Draw!";
+    } else {
+      status = "Next Player: " + (xIsNext ? "X" : "O");
+    }
   }
 
   const squareGroup = (startIdx) => {
