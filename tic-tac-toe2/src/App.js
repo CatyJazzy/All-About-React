@@ -35,7 +35,7 @@ export default function Game() {
 
   const moves = history.map((squares, move) => {
     let description;
-    let location;
+    let location; // 위치 다음
     if (move > 0) {
       description = "Go to move #" + move;
       location = `location: (${clickHis[move][0]}, ${clickHis[move][1]})`;
